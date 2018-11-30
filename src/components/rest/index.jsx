@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import models from '../../config/models';
-import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
-import classnames from 'classnames';
-import { getList } from '../../connectors/rest';
-import List from "../list";
-import Form from "../form";
+import {getList, getItem, removeItem, search} from '../../connectors/rest';
+import List from '../list';
+import Form from '../form';
+import { refreh } from '../../utils';
+import Search from "../Search";
 
 class REST extends Component {
 
@@ -14,44 +15,85 @@ class REST extends Component {
 
     let state = {
       selectedModel: undefined,
-      selectedItem: NaN
+      selectedItemId: NaN,
+      selectedItem: {},
+      data: {}
     };
     models.forEach((model) => {
-      state[model] = [];
+      state.data[model] = [];
     });
 
     this.state = state;
 
     this.editItem = this.editItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+    this.search = this.search.bind(this);
   };
 
   async componentWillMount() {
     const list = await getList();
 
     this.setState({
-      ...list
+      data: list
     });
   }
 
-  editItem(model, item) {
-    console.log(model, item);
+  async editItem(model, id) {
+    const item = await getItem(model, id);
 
     this.setState({
       selectedModel: model,
+      selectedItemId: id,
       selectedItem: item
+    });
+  }
+
+  async removeItem(model, id) {
+    const removed = await removeItem(model, id);
+
+    if (removed) {
+      refreh();
+    }
+  }
+
+  async search(str) {
+    const list = await search(str);
+
+    this.setState({
+      data: list
     });
   }
 
   render() {
     return (
-      <Row>
-        <Col md="6">
-          <List data={this.state} editItem={this.editItem} />
-        </Col>
-        <Col md="6">
-          <Form model={this.state.selectedModel} id={this.state.selectedItem} />
-        </Col>
-      </Row>
+      <div style={{ padding: '20px' }}>
+        <br />
+        <Row>
+          <Col md="12">
+            <Search
+              search={this.search}
+            />
+          </Col>
+          <br />
+          <br />
+          <br />
+          <Col md="6">
+            <List
+              data={this.state.data}
+              editItem={this.editItem}
+              removeItem={this.removeItem}
+            />
+          </Col>
+          <Col md="6">
+            <Form
+              model={this.state.selectedModel}
+              id={this.state.selectedItemId}
+              item={this.state.selectedItem}
+              dictionaries={this.state.data}
+            />
+          </Col>
+        </Row>
+      </div>
     );
   };
 }

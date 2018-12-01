@@ -61,7 +61,7 @@ class Main extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <REST />
+                {/*<REST />*/}
               </Col>
             </Row>
           </TabPane>

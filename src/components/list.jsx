@@ -6,10 +6,6 @@ import model_fields from '../config/model_fields';
 
 class List extends Component {
 
-  constructor(props) {
-    super(props);
-  };
-
   makeTables() {
     let tables = [];
     for (let key in model_fields) {

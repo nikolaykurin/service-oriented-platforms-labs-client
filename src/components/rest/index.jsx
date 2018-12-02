@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import models from '../../config/models';
 import { Row, Col } from 'reactstrap';
 
-import {getList, getItem, removeItem, search} from '../../connectors/rest';
+import { getList, getItem, createItem, updateItem, removeItem, search } from '../../connectors/rest';
 import List from '../list';
 import Form from '../form';
 import { refreh } from '../../utils';
-import Search from "../Search";
+import Search from "../search";
 
 class REST extends Component {
 
@@ -90,6 +90,8 @@ class REST extends Component {
               id={this.state.selectedItemId}
               item={this.state.selectedItem}
               dictionaries={this.state.data}
+              createItem={createItem}
+              updateItem={updateItem}
             />
           </Col>
         </Row>

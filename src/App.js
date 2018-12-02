@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Main from './components/Main';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import REST from './components/rest/index';
+import SOAP from './components/soap/index';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
@@ -12,9 +14,12 @@ library.add(faTrash, faPen);
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Main />
-      </div>
+      <Router>
+        <div className="App">
+          <Route path="/rest" component={REST} />
+          <Route path="/soap" component={SOAP} />
+        </div>
+      </Router>
     );
   }
 }

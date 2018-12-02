@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Button, FormGroup, Label, CustomInput, Form as BootstrapForm } from 'reactstrap';
 import model_fields from '../config/model_fields';
 import { notGenerateableFields, makeFormFields, refreh } from '../utils';
-import { createItem, updateItem } from '../connectors/rest';
+import PropTypes from 'prop-types';
 
 class Form extends Component {
 
   constructor(props) {
     super(props);
 
-    // model, id, item, dictionaries
     this.state = {
       model: props.model || undefined,
       id: props.id || NaN,
@@ -40,7 +39,7 @@ class Form extends Component {
       data[field] = !notGenerateableFields.includes(field) ? document.querySelector(`#${field}`).value : undefined;
     });
 
-    const result = this.state.id ? await updateItem(this.state.model, Object.assign(data, { id: this.state.id })) : await createItem(this.state.model, data);
+    const result = this.state.id ? await this.props.updateItem(this.state.model, Object.assign(data, { id: this.state.id })) : await this.props.createItem(this.state.model, data);
 
     if (result) {
       refreh();
@@ -116,5 +115,10 @@ class Form extends Component {
     );
   };
 }
+
+Form.propTypes = {
+  createItem: PropTypes.func,
+  updateItem: PropTypes.func
+};
 
 export default Form;

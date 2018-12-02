@@ -1,15 +1,17 @@
 import { API } from '../../config/api';
 
 export const getList = () => {
-  return fetch(`${API}/rest`).then((response) => {
-    return response.json().then((json) => json.data );
-  });
+  return fetch(`${API}/rest`)
+    .then((response) => {
+      return response.json().then(json => json.data );
+    });
 };
 
 export const getItem = (model, id) => {
-  return fetch(`${API}/rest/${model}/${id}`).then((response) => {
-    return response.json().then((json) => json.data );
-  });
+  return fetch(`${API}/rest/${model}/${id}`)
+    .then((response) => {
+      return response.json().then((json) => json.data );
+    });
 };
 
 export const createItem = (model, item) => {
@@ -71,7 +73,8 @@ export const removeItem = (model, id) => {
 };
 
 export const search = (str) => {
-  return fetch(`${API}/rest?search=${str}`).then((response) => {
-    return response.json().then((json) => json.data );
-  });
+  return fetch(`${API}/rest?search=${str}`)
+    .then((response) => {
+      return response.json().then((json) => json.data );
+    });
 };

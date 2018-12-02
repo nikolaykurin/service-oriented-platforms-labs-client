@@ -20,7 +20,7 @@ class List extends Component {
                     <th key={ `0-${key}` }>{ field.title }</th>
                   ))
                 }
-                <th key={ '-1-actions' }>Actions</th>
+                <th key={ '0-actions' }>Actions</th>
               </tr>
             </thead>
             <tbody>
